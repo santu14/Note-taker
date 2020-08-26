@@ -1,4 +1,3 @@
-const allNotes = require("./../../../server");
 
 const $noteTitle = $(".note-title");
 const $noteText = $(".note-textarea");
@@ -20,6 +19,7 @@ const getNotes = () => {
 
 // A function for saving a note to the db
 const saveNote = (note) => {
+  
   return $.ajax({
     url: "/api/notes",
     data: note,
@@ -51,10 +51,15 @@ const renderActiveNote = () => {
     $noteText.val("");
   }
 };
+function uniqueID(){
+  
+}
 
 // Get the note data from the inputs, save it to the db and update the view
 const handleNoteSave = function () {
+  
   const newNote = {
+    
     title: $noteTitle.val(),
     text: $noteText.val(),
   };
@@ -152,3 +157,5 @@ $noteText.on("keyup", handleRenderSaveBtn);
 
 // Gets and renders the initial list of notes
 getAndRenderNotes();
+
+// module.exports = allNotes;
