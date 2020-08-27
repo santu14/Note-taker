@@ -1,7 +1,7 @@
 {
   "name": "note-taker",
   "version": "1.0.0",
-  "description": "",
+  "description": "Lets you take notes virtualy!",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

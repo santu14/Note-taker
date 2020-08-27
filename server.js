@@ -23,22 +23,19 @@ app.post("/api/notes", (req, res) => {
   const savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8").toString());
   savedNotes.push(newNote);
   fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes));
-  res.status(200).json({added: true});
+  res.status(200);
 
 });
 
 app.delete("/api/notes/:id", (req, res) => {
   let id = parseInt(req.params.id);
-  console.log(id);
-
-  console.log("here");
-
+  
   let savedNotes = JSON.parse(fs.readFileSync("./db/db.json").toString());
 
   const notes = savedNotes.filter((note) => note.id !== id);
-  console.log(notes);
+  
   fs.writeFileSync("./db/db.json", JSON.stringify(notes));
-  res.json({ array: notes });
+  res.status(200);
 });
 
 // HTML routes
