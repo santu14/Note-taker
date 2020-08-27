@@ -3,7 +3,6 @@ const path = require("path");
 const fs = require("fs");
 const notesDB = require("./db/db.json");
 
-
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -17,34 +16,29 @@ app.get("/api/notes", (req, res) => {
   res.json(notesDB);
 });
 
-
-
 app.post("/api/notes", (req, res) => {
-
   req.body.id = Math.floor(Math.random() * 100000000);
   let newNote = req.body;
-  
 
-  fs.readFile("./db/db.json", "utf8", (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    } else {
-      const savedNotes = JSON.parse(data);
-      savedNotes.push(newNote);
+  const savedNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf8").toString());
+  savedNotes.push(newNote);
+  fs.writeFileSync("./db/db.json", JSON.stringify(savedNotes));
+  res.status(200).json({added: true});
 
-      fs.writeFile("./db/db.json", JSON.stringify(savedNotes), (err) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-      });
-    }
-  });
 });
 
 app.delete("/api/notes/:id", (req, res) => {
-  let id = req.params.id;
+  let id = parseInt(req.params.id);
+  console.log(id);
+
+  console.log("here");
+
+  let savedNotes = JSON.parse(fs.readFileSync("./db/db.json").toString());
+
+  const notes = savedNotes.filter((note) => note.id !== id);
+  console.log(notes);
+  fs.writeFileSync("./db/db.json", JSON.stringify(notes));
+  res.json({ array: notes });
 });
 
 // HTML routes
@@ -58,3 +52,4 @@ app.get("*", (req, res) => {
 app.listen(PORT, function () {
   console.log("App listening on PORT: " + PORT);
 });
+
