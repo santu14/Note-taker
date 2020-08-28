@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const notesDB = require("./db/db.json");
+// const notesDB = require("./db/db.json");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -13,7 +13,7 @@ app.use(express.static(__dirname + "/public"));
 
 // API Routes
 app.get("/api/notes", (req, res) => {
-  res.json(notesDB);
+  res.json(JSON.parse(fs.readFileSync("./db/db.json", "utf8")));
 });
 
 app.post("/api/notes", (req, res) => {
